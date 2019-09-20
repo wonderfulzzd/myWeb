@@ -1,23 +1,37 @@
 language: node_js
+
 node_js:
   - 10 # use nodejs v10 LTS
+
 cache: npm
+
 branches:
   only:
     - master # build master branch only
+
+before_install:
+  - npm install -g hexo-cli
+  - npm install hexo-deployer-git --save
+
+
 before_script:
   - git config user.name "wonderfulzzd"
   - git config user.email "wonderfulzzd@gmail.com"
-  - sed -i "s~https://github.com/wonderfulzzd/myWeb.git~https://${GITHUB_ACCESS_TOKEN}@github.com/wonderfulzzd/myWeb.git~" _config.yml
-  - npm install hexo-deployer-git --save
+
 script:
+  - hexo clean
   - hexo generate # generate static files
+
+
+after_success:
+  - sed -i'' "s~https://github.com/wonderfulzzd/myWeb.git~https://${GITHUB_REPO_TOKEN}@github.com/wonderfulzzd/myWeb.git~" _config.yml
   - hexo deploy
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
-  on:
-    branch: master
-  local-dir: public
+
+#deploy:
+#  provider: pages
+#  skip-cleanup: true
+#  github-token: $GH_TOKEN
+#  keep-history: true
+#  on:
+#    branch: master
+#  local-dir: public
