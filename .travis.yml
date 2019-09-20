@@ -11,7 +11,7 @@ before_script:
   - sed -i'' "s~https://github.com/wonderfulzzd/myWeb.git~https://${GITHUB_ACCESS_TOKEN}@github.com/wonderfulzzd/myWeb.git~" _config.yml
 script:
   - hexo generate # generate static files
-  - hexo d
+  - hexo deploy
 deploy:
   provider: pages
   skip-cleanup: true
